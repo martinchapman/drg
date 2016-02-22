@@ -67,12 +67,6 @@ public class Generate {
 	    
 		gen.end();
 		
-		for ( Edge edge : graph.getEdgeSet() ) {
-			
-			System.out.println(edge);
-			
-		}
-	    
 		graph.display();
 		
 	}
