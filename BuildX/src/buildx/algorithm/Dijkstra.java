@@ -146,6 +146,8 @@ public class Dijkstra extends BuildGraph implements Steppable {
 			step( target );
 			
 		}
+		
+		System.out.println(getPath(target));
 
 	}
 	
@@ -210,7 +212,7 @@ public class Dijkstra extends BuildGraph implements Steppable {
 
 			} else {
 				
-				System.out.println("Nope!");
+				Utils.debug("Nope!");
 				
 			}
 
