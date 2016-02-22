@@ -23,7 +23,7 @@ import buildx.utils.Utils;
 /**
  * Algorithm by Dijkstra: https://en.wikipedia.org/wiki/Dijkstra%27s_algorithm
  * 
- * 
+ * Based upon implementation by Vogella.
  * 
  * @author Martin
  *
