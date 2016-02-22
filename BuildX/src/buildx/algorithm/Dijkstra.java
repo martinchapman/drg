@@ -16,6 +16,7 @@ import org.graphstream.graph.implementations.SingleGraph;
 
 import buildx.BuildGraph;
 import buildx.Steppable;
+import buildx.hideandseek.strategy.DepthFirstSearch;
 import buildx.utils.GraphUtils;
 import buildx.utils.Utils;
 
