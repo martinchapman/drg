@@ -19,12 +19,12 @@ public class Generate {
 	/**
 	 * 
 	 */
-	private static int numberOfNodes = 20;
+	private static int numberOfNodes = 20; // 50
 	
 	/**
 	 * Degree = (average) number of edges attached to a node
 	 */
-	private static int degree = 5;
+	private static int degree = 5; // 10
 	
 	/**
 	 * 
@@ -72,7 +72,7 @@ public class Generate {
 	}
 	
 	/**
-	 * Albert-László BY Barabási and Eric Bonabeau. 
+	 * Albert-László Barabási and Eric Bonabeau. 
 	 * 
 	 * Principle of Preferential attachment: add to nodes
 	 * that already have a high degree with higher probability.
