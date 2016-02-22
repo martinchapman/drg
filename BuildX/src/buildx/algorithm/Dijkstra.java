@@ -52,7 +52,7 @@ public class Dijkstra extends BuildGraph implements Steppable {
 	 */
 	private Map<Node, Node> predecessors;
 	
-	// Create out graph...
+	// Create our graph...
 	//        B---9--E
 	//       /|      |
 	//      / |      |
@@ -155,6 +155,7 @@ public class Dijkstra extends BuildGraph implements Steppable {
 			
 		}
 		
+		// Finally print path
 		System.out.println(getPath(target));
 
 	}
@@ -195,6 +196,43 @@ public class Dijkstra extends BuildGraph implements Steppable {
 		
 		return node;
 					
+	}
+	
+	/**
+	 * Find the perceived closest node from the set of estimates.
+	 * 
+	 * (At first will just return start node)
+	 * 
+	 * @param nodees
+	 * @return
+	 */
+	private Node getClosestFromEstimate( Set<Node> nodes ) {
+		
+		Node minimum = null;
+		
+		/* Classic technique for finding the minimum of a set: compare with
+		 * constantly updating value.
+		 */
+		for (Node node : nodes) {
+		
+			if (minimum == null) {
+			
+				minimum = node;
+			
+			} else {
+			
+				if ( getDistanceEstimate( node ) < getDistanceEstimate( minimum ) ) {
+				
+					minimum = node;
+				
+				}
+			
+			}
+		
+		}
+		
+		return minimum;
+	
 	}
 
 	/**
@@ -246,55 +284,19 @@ public class Dijkstra extends BuildGraph implements Steppable {
 	 */
 	private int getDistanceEstimate( Node destination ) {
 		
-		Integer d = distanceEstimate.get(destination);
+		Integer distance = distanceEstimate.get(destination);
 		
 		// If there is no estimate, return a conservatively large value
-		if ( d == null ) {
+		if ( distance == null ) {
 		
 			return Integer.MAX_VALUE;
 		
 		} else {
 		
-			return d;
+			return distance;
 		
 		}
 	}
-	
-	/**
-	 * Find the perceived closest node from the set of estimates
-	 * 
-	 * @param nodees
-	 * @return
-	 */
-	private Node getClosestFromEstimate( Set<Node> nodes ) {
-		
-		Node minimum = null;
-		
-		/* Classic technique for finding the minimum of a set: compare with
-		 * constantly updating value.
-		 */
-		for (Node node : nodes) {
-		
-			if (minimum == null) {
-			
-				minimum = node;
-			
-			} else {
-			
-				if ( getDistanceEstimate( node ) < getDistanceEstimate( minimum ) ) {
-				
-					minimum = node;
-				
-				}
-			
-			}
-		
-		}
-		
-		return minimum;
-	
-	}
-	
 
 	/**
 	 * Steps backwards through the list of predecessors
