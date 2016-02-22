@@ -33,9 +33,9 @@ public class AlgorithmStep implements Observer {
 		
 		Utils.debug = true;
 		
-		Build1();
+		//Build1();
 		
-		//Build2();
+		Build2();
 		
 	}
 	
