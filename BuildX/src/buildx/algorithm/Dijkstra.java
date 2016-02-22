@@ -375,6 +375,8 @@ public class Dijkstra extends BuildGraph implements Steppable {
 	/**
 	 * Utility: finds the neighbours of a node
 	 * 
+	 * Importantly, only returns to unsettled nodes.
+	 * 
 	 * @param node
 	 * @return
 	 */
