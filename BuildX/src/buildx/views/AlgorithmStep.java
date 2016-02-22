@@ -3,6 +3,7 @@ package buildx.views;
 import java.awt.Dimension;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.List;
 import java.util.Observable;
 import java.util.Observer;
 
@@ -31,9 +32,9 @@ public class AlgorithmStep implements Observer {
 		
 		Utils.debug = true;
 		
-		Build1();
+		//Build1();
 		
-		//Build2();
+		Build2();
 		
 	}
 	
@@ -68,7 +69,6 @@ public class AlgorithmStep implements Observer {
 			
 		});
 		
-
 		Thread t = new Thread(((HamiltonianCycle)algorithm), "");
 		
 		t.run();
@@ -111,6 +111,8 @@ public class AlgorithmStep implements Observer {
 		
 		Steppable algorithm = new Dijkstra();
 		
+		GraphUtils.display(((BuildGraph)algorithm).getGraph());
+		
 		Node source = ((BuildGraph)algorithm).getGraph().getNode("A");
 		
 		Node target = ((BuildGraph)algorithm).getGraph().getNode("E");
@@ -118,8 +120,6 @@ public class AlgorithmStep implements Observer {
 		GraphUtils.colourNode(source, "red");
 		
 		GraphUtils.colourNode(target, "green");
-		
-		GraphUtils.display(((BuildGraph)algorithm).getGraph());
 		
 		stepButton().addActionListener(new ActionListener() {
 
@@ -132,7 +132,11 @@ public class AlgorithmStep implements Observer {
 				
 				if ( stepped == null ) {
 					
-					for ( Node node : ((Dijkstra)algorithm).getPath(target) ) {
+					List<Node> path = ((Dijkstra)algorithm).getPath(target);
+					
+					System.out.println(path);
+					
+					for ( Node node : path ) {
 						
 						GraphUtils.colourNode(node, "yellow");
 						

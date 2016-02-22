@@ -21,11 +21,17 @@ import buildx.utils.GraphUtils;
 import buildx.utils.Utils;
 
 /**
+ * Algorithm by Dijkstra: https://en.wikipedia.org/wiki/Dijkstra%27s_algorithm
+ * 
+ * 
+ * 
  * @author Martin
  *
  */
 public class Dijkstra extends BuildGraph implements Steppable {
 
+	// Important sets of information we need...
+	
 	/**
 	 * The nodes we have visited
 	 */
@@ -46,6 +52,7 @@ public class Dijkstra extends BuildGraph implements Steppable {
 	 */
 	private Map<Node, Node> predecessors;
 	
+	// Create out graph...
 	//        B---9--E
 	//       /|      |
 	//      / |      |
@@ -68,7 +75,7 @@ public class Dijkstra extends BuildGraph implements Steppable {
 		graph.addNode("A").addAttribute("xy", 0, 1);
 		graph.addNode("B").addAttribute("xy", 1, 2);
 		graph.addNode("C").addAttribute("xy", 1, 1);
-		graph.addNode("D").addAttribute("xy", 1, 0);
+		graph.addNode("D").addAttribute("xy", 1, 1);
 		graph.addNode("E").addAttribute("xy", 2, 2);
 		graph.addNode("F").addAttribute("xy", 2, 1);
 
@@ -152,6 +159,8 @@ public class Dijkstra extends BuildGraph implements Steppable {
 
 	}
 	
+	// What happens in one step?
+	
 	/**
 	 * One step of the algorithm
 	 * @param target
@@ -160,11 +169,12 @@ public class Dijkstra extends BuildGraph implements Steppable {
 		
 		if ( unsettledNodes.size() == 0 ) {
 			
+			// Nothing more to be done
 			return null;
 			
 		}
 		
-		// Always deal with the next closest node first (via the estimate)
+		// Always deal with the next closest node first (determined via our estimated distance)
 		Node node = getClosestFromEstimate( unsettledNodes );
 		
 		Utils.debug("========================");
@@ -173,9 +183,13 @@ public class Dijkstra extends BuildGraph implements Steppable {
 		// See if we have any new information on shortest paths
 		updateAdjacentNodeDistances(node);
 
-		// Switch from settled to unsettled
+		// Switch current node from settled to unsettled
 		settledNodes.add( node );
 		unsettledNodes.remove( node );
+		
+		Utils.debug("========================");
+		
+		Utils.debug("Distance estimate: " + distanceEstimate);
 		
 		Utils.debug("========================");
 		

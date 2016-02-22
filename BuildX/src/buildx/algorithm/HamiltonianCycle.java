@@ -13,6 +13,10 @@ import buildx.utils.GraphUtils;
 import buildx.utils.Utils;
 
 /**
+ * Implementation of a Hamiltonian Cycle algorithm: https://en.wikipedia.org/wiki/Hamiltonian_path
+ * 
+ * Recursive approach used by: https://github.com/ajitkoti/Algorithms/blob/master/src/com/interview/algorithms/graph/HamiltonianCycle.java
+ * 
  * @author Martin
  *
  */
@@ -128,7 +132,7 @@ public class HamiltonianCycle extends BuildGraph implements Steppable, Runnable 
 	}
 	
 	/**
-	 * 
+	 * Will solve without steps
 	 */
 	public void solve() {
 		
@@ -139,10 +143,13 @@ public class HamiltonianCycle extends BuildGraph implements Steppable, Runnable 
 	}
 	
 	/**
-	 * @return
+	 * Starts the recursive solution
+	 * 
+	 * @return The path taken
 	 */
 	public ArrayList<Node> findPath() {
 		
+		// Use the below to track the recursion
 		ArrayList<Node> solutionPath = null;
 				
 		try {
@@ -166,9 +173,11 @@ public class HamiltonianCycle extends BuildGraph implements Steppable, Runnable 
 	}
 	
 	/**
+	 * Main recursive method for moving through graph to construct path
+	 * 
 	 * @param node
 	 * @param solutionPath
-	 * @return
+	 * @return The hamiltonian path
 	 * @throws Exception
 	 */
 	public ArrayList<Node> solve( Node node, ArrayList<Node> solutionPath ) throws Exception {
@@ -187,19 +196,26 @@ public class HamiltonianCycle extends BuildGraph implements Steppable, Runnable 
 			// Add start node.
 			path.add( start );
 			
-			throw new Exception("Solution found");
+			// Breaks recursion once solution is found.
+			throw new Exception("Found a solution.");
 			
 		}
 
+		// If our path is complete, but we are not back at the start, return this as a `best effort' solution.
 		if ( path.size() == graph.getNodeSet().size() ) {
 			
 			return solutionPath;
 			
 		}
-
+		
+		// Look through all neighbours
 		for ( Node otherNode : graph.getNodeSet() ) {
 			
 			if ( node.hasEdgeBetween(otherNode) ) {
+				
+				Utils.debug("====================");
+				Utils.debug("Path: " + path);
+				Utils.debug("====================");
 				
 				Utils.debug( "At node: " + node + " looking at " + otherNode);
 				
@@ -227,13 +243,16 @@ public class HamiltonianCycle extends BuildGraph implements Steppable, Runnable 
 	            	
 	            }
 	            
-				path.add( otherNode ) ;
+	            // Record that we are at this neighbour
+				path.add( otherNode );
 				
+				// Remove edge to prevent backtracking (potential critique: wouldn't looking ahead be better?)
 				graph.removeEdge(node, otherNode);
 				graph.removeEdge(otherNode, node);
 
 				Utils.debug( "Removing: " + node + " <-> " + otherNode + ". Edges in graph: " + graph.getEdgeCount() );
 				
+				// If we haven't already been here, 
 				if ( !isPresent(otherNode) ) {
 					
 					solve(otherNode, solutionPath);
@@ -254,11 +273,17 @@ public class HamiltonianCycle extends BuildGraph implements Steppable, Runnable 
 	            	
 	            }
 
+				/* Otherwise, don't recurse, restore edge OR these edges would be restored after the recursive call,
+				 * once each nested call to solve completes (i.e. restored in reverse order via recursion unwinding).
+				 */
 				graph.addEdge(node.getId() + otherNode.getId(), node, otherNode);
 				graph.addEdge(otherNode.getId() + node.getId(), otherNode, node);
 				
 				Utils.debug( "Restoring: " + node + " <-> " + otherNode + ". Edges in graph: " + graph.getEdgeCount() );
 				
+				/* Relying on the solution exception never to reach this point unless a edge has been
+				 * added to a priorly explored node (otherwise would reach here when unwinding and affect file solution).
+				 */
 				path.remove(path.size() - 1);
 				
 			}
@@ -276,6 +301,11 @@ public class HamiltonianCycle extends BuildGraph implements Steppable, Runnable 
 	 */
 	
 	/**
+	 * Checks if a node is already on our path.
+	 * 
+	 * Required because GraphStream doesn't necessarily provide 
+	 * a way to compare nodes, unfortunately.
+	 * 
 	 * @param node
 	 * @return
 	 */
@@ -295,18 +325,6 @@ public class HamiltonianCycle extends BuildGraph implements Steppable, Runnable 
 	
 	}
 
-	/**
-	 * @param args
-	 */
-	public static void main(String[] args) {
-		
-		Utils.debug = true;
-		
-		HamiltonianCycle build2 = new HamiltonianCycle();
-		
-		build2.findPath();
-		
-	}
 
 	/* (non-Javadoc)
 	 * @see BuildX.Steppable#step(org.graphstream.graph.Node)
