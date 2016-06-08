@@ -19,21 +19,21 @@ public class Generate {
 	/**
 	 * 
 	 */
-	private static int numberOfNodes = 20; // 50
+	private static int numberOfNodes = 50;
 	
 	/**
 	 * Degree = (average) number of edges attached to a node
 	 */
-	private static int degree = 5; // 10
+	private static int degree = 10;
 	
 	/**
 	 * 
 	 */
 	public Generate() {
 		
-		generateRandom();
+		//generateRandom();
 		
-		//generateScaleFree();
+		generateScaleFree();
 	
 	}
 	
